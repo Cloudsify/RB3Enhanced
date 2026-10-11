@@ -31,6 +31,8 @@
 #define PORT_UPDATEPRESENCEBLOCK_B 0x80188194    // branch after the failure case in a function that calls UpdatePresence
 #define PORT_MULTIPLAYER_CRASH 0x80018a78        // branch to a function that can crash in online multiplayer
 #define PORT_MULTIPLAYER_FIX 0x806ec0e8          // the function that doesn't crash
+#define PORT_RND_ENDWORLD_CALL 0x8063b7a8        // call to Rnd::EndWorld in Rnd::EndDrawing
+#define PORT_RND_UPDATEHEAP_CALL 0x8063b86c      // call to Rnd::UpdateHeap in Rnd::UpdateOverlay
 #define PORT_ADDTRACKVECTOR_BL 0x80480a88       // bl to vector_push_back inside of SongData::AddTrack
 // #define PORT_LOADOBJS_BCTRL 0x827562e4
 // function patch addresses
@@ -51,6 +53,7 @@
 #define PORT_HMXFACTORYFUNCAT 0x8031b2f8         // HmxObjectFactoryFunc::_at
 #define PORT_WILLBENOSTRUM 0x80463010            // GameGemList::WillBeNoStrum
 #define PORT_ADDGAMEGEM 0x80463198               // GameGemList::AddGameGem
+#define PORT_SONGDBGETGEMLISTBYDIFF 0x8015a8ac   // SongDB::GetGemListByDiff
 #define PORT_SETADDRESS 0x8001bf74               // Quazal::InetAddress::SetAddress
 #define PORT_RANDOMINT 0x802ddd60                // RandomInt(min, max)
 #define PORT_GETWIDGETBYNAME 0x800d59b0          // GemManager::GetWidgetByName
@@ -134,6 +137,13 @@
 #define PORT_DATAREGISTERFUNC 0x8031b2b8         // DataRegisterFunc
 #define PORT_FILEISLOCAL 0x802fb548              // FileIsLocal
 #define PORT_FILEISDLC 0x802fb54c                // FileIsDLC
+#define PORT_MEMFREEBLOCKSTATS 0x80352b00         // MemFreeBlockStats
+#define PORT_MEMNUMHEAPS 0x803545a4               // MemNumHeaps
+#define PORT_MEMHEAPNAME 0x8035463c               // MemHeapName
+#define PORT_TEXTSTREAM_WRITE 0x8037a940           // TextStream::operator<<(const char *)
+#define PORT_RND_OVERLAY_DRAWALL 0x80617c8c        // RndOverlay::DrawAll
+#define PORT_RND_OVERLAY_SETLINES 0x8061800c       // RndOverlay::SetLines
+#define PORT_RND_ENDWORLD 0x8063afa8               // Rnd::EndWorld
 #define PORT_SDMODECHECK 0x802F5638              // WiiContentMgr::SDModeCheck
 #define PORT_CHARBANDDESC_MAKEOUTFITPATH 0x803dbf70 // CharBandDesc::MakeOutfitPath
 #define PORT_BANDCHARDESC_NEWOBJECT 0x801f6468        // BandCharDesc::NewObject
@@ -157,6 +167,8 @@
 #define PORT_THEGAME 0x808f9758             // pointer to TheGame (you lost)
 #define PORT_OBJECTDIRMAINDIR 0x8091b1e8    // ObjectDir::sMainDir
 #define PORT_GPREFABS 0x809862b8            // gPrefabs (directory for prefabs)
+#define PORT_GCURHEAP 0x80898d98            // current heap selected by the memory overlay
+#define PORT_MEMHEAPS 0x8097c520            // memory manager heap array
 // string pointers
 #define PORT_NASWII_AC_URL 0x808e2310
 #define PORT_NASWII_PR_URL 0x808e2390

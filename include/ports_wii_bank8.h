@@ -54,6 +54,7 @@
 // #define PORT_HMXFACTORYFUNCAT 0x8031b2f8         // FIXME HmxObjectFactoryFunc::_at - inlined in bank8?
 #define PORT_WILLBENOSTRUM 0x8062b2d0            // GameGemList::WillBeNoStrum
 #define PORT_ADDGAMEGEM 0x8062b460               // GameGemList::AddGameGem
+#define PORT_SONGDBGETGEMLISTBYDIFF 0x801dbf90   // SongDB::GetGemListByDiff
 #define PORT_SETADDRESS 0x80028d00               // Quazal::InetAddress::SetAddress
 #define PORT_RANDOMINT 0x803fef30                // RandomInt(min, max)
 #define PORT_GETWIDGETBYNAME 0x80135f30          // GemManager::GetWidgetByName
@@ -145,7 +146,7 @@
 #define PORT_THEARCHIVE 0x80c92dd0          // address of TheArchive (main ARK)
 #define PORT_THEBANDUI 0x80c8f800           // address of TheBandUI
 #define PORT_NULLSYMBOL 0x80bb5d30          // address of gNullSymbol
-#define PORT_THESONGDB 0x80c8f048           // address of TheSongDB - TODO: check
+#define PORT_THESONGDB 0x80c8f048           // address of TheSongDB
 #define PORT_THEMUSICLIBRARY 0x80c904b8     // pointer to TheMusicLibrary
 #define PORT_THESONGSORTMGR 0x80c91248      // pointer to TheSongSortMgr
 #define PORT_THESONGMGR 0x80c8f61c          // address of gSongMgr

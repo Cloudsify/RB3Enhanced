@@ -50,6 +50,13 @@ void InitGlobalSymbols()
     SymbolConstruct(&globalSymbols.rb3e_get_genre, "rb3e_get_genre");
     SymbolConstruct(&globalSymbols.rb3e_delete_songcache, "rb3e_delete_songcache");
     SymbolConstruct(&globalSymbols.rb3e_local_ip, "rb3e_local_ip");
+    SymbolConstruct(&globalSymbols.rb3e_get_game_gem_time_ms, "rb3e_get_game_gem_time_ms");
+    SymbolConstruct(&globalSymbols.rb3e_get_game_gem_time_tick, "rb3e_get_game_gem_time_tick");
+    SymbolConstruct(&globalSymbols.rb3e_get_game_gem_count, "rb3e_get_game_gem_count");
+    SymbolConstruct(&globalSymbols.rb3e_get_game_gem_slots, "rb3e_get_game_gem_slots");
+    SymbolConstruct(&globalSymbols.rb3e_get_track_count, "rb3e_get_track_count");
+    SymbolConstruct(&globalSymbols.rb3e_get_track_type, "rb3e_get_track_type");
+    SymbolConstruct(&globalSymbols.rb3e_has_track_type, "rb3e_has_track_type");
 
     SymbolConstruct(&globalSymbols.blackBackground, "mod_black_background");
     SymbolConstruct(&globalSymbols.colorShuffle, "mod_color_shuffle");

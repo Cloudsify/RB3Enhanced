@@ -34,6 +34,13 @@ typedef struct _GlobalSymbols
     Symbol rb3e_get_genre;
     Symbol rb3e_delete_songcache;
     Symbol rb3e_local_ip;
+    Symbol rb3e_get_game_gem_time_ms;
+    Symbol rb3e_get_game_gem_time_tick;
+    Symbol rb3e_get_game_gem_count;
+    Symbol rb3e_get_game_gem_slots;
+    Symbol rb3e_get_track_count;
+    Symbol rb3e_get_track_type;
+    Symbol rb3e_has_track_type;
 
     // modifiers
     Symbol forceHopos;

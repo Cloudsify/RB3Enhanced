@@ -38,6 +38,11 @@ typedef struct _GameGem
     char isRealGuitar;
 
     // There is more after this that I am too lazy to map. Probably pro instrument stuff
+#ifdef RB3E_XBOX
+    unsigned char unknown_0x13[0x31];
+#else
+    unsigned char unknown_0x13[0x19];
+#endif
 } GameGem;
 
 typedef enum _NoStrumState

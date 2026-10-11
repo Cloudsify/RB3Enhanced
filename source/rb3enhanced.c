@@ -358,10 +358,24 @@ void InitialiseFunctions()
     // the Wii has a different memory manager, these funcs don't exist
     POKE_B(&MemPrintOverview, PORT_MEMPRINTOVERVIEW);
     POKE_B(&MemPrint, PORT_MEMPRINT);
-    POKE_B(&MemNumHeaps, PORT_MEMNUMHEAPS);
     // TODO: port these to Wii
     POKE_B(&DataFindArray, PORT_DATAARRAYFINDARRAY);
     POKE_B(&DataFindData, PORT_DATAARRAYFINDDATA);
+#endif
+#ifndef RB3E_WII_BANK8
+    POKE_B(&MemNumHeaps, PORT_MEMNUMHEAPS);
+    POKE_B(&RndEndWorld, PORT_RND_ENDWORLD);
+    POKE_B(&RndOverlayDrawAll, PORT_RND_OVERLAY_DRAWALL);
+#endif
+#ifdef RB3E_XBOX
+    POKE_B(&RndPreInit, PORT_RND_PREINIT);
+    POKE_B(&RndOnToggleHeap, PORT_RND_ONTOGGLEHEAP);
+#endif
+#if defined(RB3E_WII) && !defined(RB3E_WII_BANK8)
+    POKE_B(&MemFreeBlockStats, PORT_MEMFREEBLOCKSTATS);
+    POKE_B(&MemHeapName, PORT_MEMHEAPNAME);
+    POKE_B(&RndOverlaySetLines, PORT_RND_OVERLAY_SETLINES);
+    POKE_B(&TextStreamWrite, PORT_TEXTSTREAM_WRITE);
 #endif
     POKE_B(&SongMgrGetRankedSongs, PORT_SONGMGRGETRANKEDSONGS);
 #ifndef RB3E_WII_BANK8
@@ -397,6 +411,7 @@ void InitialiseFunctions()
     POKE_B(&JoypadGetPadData, PORT_JOYPADGETPADDATA);
     POKE_B(&MemAlloc, PORT_MEMALLOC);
     POKE_B(&MemFree, PORT_MEMFREE);
+    POKE_B(&SongDBGetGemListByDiff, PORT_SONGDBGETGEMLISTBYDIFF);
     POKE_B(&RndTexNewObject, PORT_RNDTEXNEWOBJECT);
     POKE_B(&RndMatNewObject, PORT_RNDMATNEWOBJECT);
     POKE_B(&RndTexSetBitmap, PORT_RNDTEXSETBITMAP);
@@ -432,6 +447,9 @@ void InitialiseFunctions()
 
 void ApplyHooks()
 {
+#ifndef RB3E_WII_BANK8
+    InitialiseMemoryOverlay();
+#endif
     POKE_B(PORT_DATAINITFUNCS_TAIL, &AddDTAFunctions);
     POKE_B(PORT_OVERSHELLPARTSELECTPROVIDERRELOAD, &OvershellPartSelectProviderReload);
     //#ifndef RB3E_WII_BANK8

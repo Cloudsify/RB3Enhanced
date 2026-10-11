@@ -60,6 +60,7 @@
 #define PORT_MULTIPLAYER_FIX 0x8282b238          // the function that doesn't crash
 #define PORT_QUAZAL_BREAKPOINT 0x828410c0        // address to DbgBreakPoint in Quazal::Platform::Breakpoint
 #define PORT_MAINSEH 0x82272e60                  // address to __CxxFrameHandler above the main() function
+#define PORT_RND_ENDWORLD_CALL 0x8240f04c         // call to Rnd::EndWorld in Rnd::EndDrawing
 // function patch addresses
 #define PORT_SETDISKERROR 0x82516320                 // PlatformMgr::SetDiskError
 #define PORT_APP_RUN 0x82272e90                      // App::Run
@@ -75,6 +76,7 @@
 #define PORT_ADDGAMEGEM 0x8278e530                   // GameGemList::AddGameGem
 #define PORT_SONGDATAADDMULTIGEM 0x827719b0          // SongData::AddMultiGem
 #define PORT_WILLBENOSTRUM 0x8278cbb0                // GameGemList::WillBeNoStrum
+#define PORT_SONGDBGETGEMLISTBYDIFF 0x82684f70        // SongDB::GetGemListByDiff
 #define PORT_SETVENUE 0x8257d1c0                     // MetaPerformer::SetVenue(?) (actual func name is not known)
 #define PORT_ISUGCPLUS 0x8259e890                    // function that checks song source(?)
 #define PORT_KEYSONGUITAR 0x825b50f8                 // function that checks "key_keys_on_guitar"
@@ -188,6 +190,10 @@
 #define PORT_GETPREFABPORTRAITPATH 0x825d8078        // GetPortraitPath
 #define PORT_VOICEBEAT_RESET 0x827182b8              // VoiceBeat::Reset
 #define PORT_OUTFIGCONFIG_COMPRESSTEXTURES 0x8229d0a0 // OutfitConfig::CompressTextures
+#define PORT_RND_OVERLAY_DRAWALL 0x824171c0        // RndOverlay::DrawAll
+#define PORT_RND_ENDWORLD 0x8240ef20               // Rnd::EndWorld
+#define PORT_RND_ONTOGGLEHEAP 0x82412b38           // Rnd::OnToggleHeap
+#define PORT_RND_PREINIT 0x82416138                 // Rnd::PreInit
 // instance addresses
 #define PORT_MODIFIERMGR_POINTER 0x82dfec08 // pointer to ModifierManager
 #define PORT_ROCKCENTRALGATEWAY 0x82cc8f60  // address of RockCentralGateway
