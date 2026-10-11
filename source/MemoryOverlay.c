@@ -23,7 +23,6 @@ static void RndEndWorldAndDrawOverlays(void *thisRnd)
 #ifdef RB3E_XBOX
 static void RndPreInitMemoryOverlayHook(void *thisRnd)
 {
-    DataNode result;
     void *heapOverlay;
     RndPreInit(thisRnd);
     heapOverlay = *(void **)((unsigned char *)thisRnd + 0x88); // Rnd::mHeapOverlay
@@ -31,7 +30,6 @@ static void RndPreInitMemoryOverlayHook(void *thisRnd)
     {
         *(float *)((unsigned char *)heapOverlay + 0x24) = 0.7f; // tweak RndOverlay::mBackColor alpha, to make it easier to see
     }
-    RndOnToggleHeap(&result, thisRnd, NULL);
 }
 #endif
 
