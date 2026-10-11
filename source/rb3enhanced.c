@@ -434,9 +434,11 @@ void InitialiseFunctions()
 #endif
 #ifdef RB3E_XBOX
     POKE_B(&DataArrayExecute, PORT_DATAARRAYEXECUTE);
+    POKE_B(&LightPresetManualEventsClear, PORT_LIGHTPRESET_MANUALEVENTS_CLEAR);
 #endif
 #ifndef RB3E_XBOX
     POKE_B(&DataRegisterFunc, PORT_DATAREGISTERFUNC);
+    POKE_B(&LightPresetResetEvents, PORT_LIGHTPRESET_RESETEVENTS);
 #endif
 #ifdef RB3E_WII
     POKE_B(&FileIsDLC, PORT_FILEISDLC);
@@ -492,6 +494,7 @@ void ApplyHooks()
     HookFunction(PORT_MUSICLIBRARYONENTER, &MusicLibraryOnEnter, &MusicLibraryOnEnterHook);
     HookFunction(PORT_MUSICLIBRARYONUNLOAD, &MusicLibraryOnUnload, &MusicLibraryOnUnloadHook);
     HookFunction(PORT_VOICEBEAT_RESET, &VoiceBeatReset, &VoiceBeatResetHook);
+    HookFunction(PORT_BANDDIRECTOR_ENTER, &BandDirectorEnter, &BandDirectorEnterHook);
 #ifdef RB3E_WII // wii exclusive hooks
     // HookFunction(PORT_USBWIIGETTYPE, &UsbWiiGetType, &UsbWiiGetTypeHook);
     HookFunction(PORT_WIINETINIT_DNSLOOKUP, &StartDNSLookup, &StartDNSLookupHook);

@@ -151,6 +151,8 @@
 #define PORT_DIRLOADER_LOADOBJECTS 0x8032ffe0          // DirLoader::LoadObjects
 #define PORT_GETPREFABPORTRAITPATH 0x801f1394        // GetPortraitPath
 #define PORT_VOICEBEAT_RESET 0x80699aa0              // VoiceBeat::Reset
+#define PORT_BANDDIRECTOR_ENTER 0x80395328           // BandDirector::Enter
+#define PORT_LIGHTPRESET_RESETEVENTS 0x805a210c      // LightPreset::ResetEvents
 // instance addresses
 #define PORT_MODIFIERMGR_POINTER 0x808fda68 // pointer to ModifierManager
 #define PORT_ROCKCENTRALGATEWAY 0x80900870  // address of RockCentralGateway

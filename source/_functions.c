@@ -153,6 +153,9 @@ RB3E_STUB(ReloadPrefabs)
 RB3E_STUB(DirLoaderLoadObjects)
 RB3E_STUB(GetPrefabPortraitPath)
 RB3E_STUB(VoiceBeatReset)
+RB3E_STUB(BandDirectorEnter)
+RB3E_STUB(LightPresetResetEvents)
+RB3E_STUB(LightPresetManualEventsClear)
 
 #ifdef RB3E_WII
 // Wii-specific functions

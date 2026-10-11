@@ -13,6 +13,7 @@
 #include "GlobalSymbols.h"
 #include "gocentral.h"
 #include "inih.h"
+#include "LightingHooks.h"
 #include "LocaleHooks.h"
 #include "MemoryOverlay.h"
 #include "MiloSceneHooks.h"

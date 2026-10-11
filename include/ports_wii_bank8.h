@@ -139,6 +139,8 @@
 #define PORT_FILEISDLC 0x80422570              // FileIsDLC
 #define PORT_SDMODECHECK 0x8041a790            // WiiContentMgr::SDModeCheck
 #define PORT_VOICEBEAT_RESET 0x809c3470        // VoiceBeat::Reset
+#define PORT_BANDDIRECTOR_ENTER 0x804f1de0     // BandDirector::Enter
+#define PORT_LIGHTPRESET_RESETEVENTS 0x808340d0 // LightPreset::ResetEvents
 // instance addresses
 #define PORT_MODIFIERMGR_POINTER 0x80c904a8 // pointer to ModifierManager
 #define PORT_ROCKCENTRALGATEWAY 0x80c91818  // address of RockCentralGateway

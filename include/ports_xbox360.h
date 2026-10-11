@@ -189,6 +189,8 @@
 #define PORT_DIRLOADER_LOADOBJECTS 0x82757b00           // DirLoader::LoadObjects
 #define PORT_GETPREFABPORTRAITPATH 0x825d8078        // GetPortraitPath
 #define PORT_VOICEBEAT_RESET 0x827182b8              // VoiceBeat::Reset
+#define PORT_BANDDIRECTOR_ENTER 0x8229a760           // BandDirector::Enter
+#define PORT_LIGHTPRESET_MANUALEVENTS_CLEAR 0x824afb30 // deque<pair<LightPreset::KeyframeCmd, float>>::clear
 #define PORT_OUTFIGCONFIG_COMPRESSTEXTURES 0x8229d0a0 // OutfitConfig::CompressTextures
 #define PORT_RND_OVERLAY_DRAWALL 0x824171c0        // RndOverlay::DrawAll
 #define PORT_RND_ENDWORLD 0x8240ef20               // Rnd::EndWorld
@@ -212,6 +214,7 @@
 #define PORT_MESH_GREV 0x82cc2638           // address of RndMesh::gRev
 #define PORT_DXRND 0x82e04b38               // address of TheDxRnd
 #define PORT_GPREFABS 0x82cbe1b8            // gPrefabs (ObjectDir for prefabs)
+#define PORT_LIGHTPRESET_MANUALEVENTS 0x82cc6e98 // LightPreset::sManualEvents
 // import function stubs
 #define PORT_XEKEYSSETKEY_STUB 0x82c4c47c
 #define PORT_XEKEYSAESCBC_STUB 0x82c4c48c
