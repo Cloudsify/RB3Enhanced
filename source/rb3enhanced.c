@@ -219,6 +219,10 @@ void ApplyPatches()
     POKE_32(PORT_SONGBLACKLIST, LI(3, 0));
     // Patch out the function for checking keys on guitar unlock status.
     POKE_32(PORT_KEYSONGUITAR, BLR);
+    // Patch out HitTracker::RGFret, a debug pro guitar fret counter which does not contain room for 22 frets
+    // On a 22-fret pro guitar this will write past the allocated memory, which can/will cause crashes eventually
+    // Presumably this is the cause of the old 22-fret crash that was/is wildly inconsistent
+    POKE_32(PORT_HITTRACKER_RGFRET, BLR);
 #ifdef RB3E_WII
     // Patch out calls to CustomSplash in App::_ct
     POKE_32(PORT_STRAPSCREEN_1, NOP);

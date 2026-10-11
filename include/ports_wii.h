@@ -50,6 +50,7 @@
 #define PORT_SETSONGANDARTISTNAME 0x801b68a8     // BandLabel::SetSongAndArtistName
 #define PORT_SETSONGNAMEFROMNODE 0x801b6358               // BandLabel::SetSongNameFromNode
 #define PORT_KEYSONGUITAR 0x80242ab4             // function that checks "key_keys_on_guitar"
+#define PORT_HITTRACKER_RGFRET 0x8012fa5c        // HitTracker::RGFret
 #define PORT_HMXFACTORYFUNCAT 0x8031b2f8         // HmxObjectFactoryFunc::_at
 #define PORT_WILLBENOSTRUM 0x80463010            // GameGemList::WillBeNoStrum
 #define PORT_ADDGAMEGEM 0x80463198               // GameGemList::AddGameGem

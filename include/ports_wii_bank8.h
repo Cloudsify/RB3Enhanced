@@ -51,6 +51,7 @@
 #define PORT_SETSONGANDARTISTNAME 0x80254650    // BandLabel::SetSongAndArtistName
 #define PORT_SETSONGNAMEFROMNODE 0x80253ec0     // BandLabel::SetSongNameFromNode
 #define PORT_KEYSONGUITAR 0x8031c1b0            // OvershellPanel::CanGuitarPlayKeys
+#define PORT_HITTRACKER_RGFRET 0x801a9870       // HitTracker::RGFret
 // #define PORT_HMXFACTORYFUNCAT 0x8031b2f8         // FIXME HmxObjectFactoryFunc::_at - inlined in bank8?
 #define PORT_WILLBENOSTRUM 0x8062b2d0            // GameGemList::WillBeNoStrum
 #define PORT_ADDGAMEGEM 0x8062b460               // GameGemList::AddGameGem

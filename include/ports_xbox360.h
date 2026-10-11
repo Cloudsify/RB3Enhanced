@@ -80,6 +80,7 @@
 #define PORT_SETVENUE 0x8257d1c0                     // MetaPerformer::SetVenue(?) (actual func name is not known)
 #define PORT_ISUGCPLUS 0x8259e890                    // function that checks song source(?)
 #define PORT_KEYSONGUITAR 0x825b50f8                 // function that checks "key_keys_on_guitar"
+#define PORT_HITTRACKER_RGFRET 0x826e3540            // HitTracker::RGFret
 #define PORT_EXECUTEDTA 0x824f7e50                   // RockCentralGateway::ExecuteConfig
 #define PORT_BANDLABELSETDISPLAYTEXT 0x823406f8      // BandLabel::SetDisplayText
 #define PORT_SETSONGANDARTISTNAME 0x825c66f8         // BandLabel::SetSongAndArtistName
