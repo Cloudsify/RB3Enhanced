@@ -26,15 +26,33 @@
 
 DynamicTex *textures[100] = {0};
 
+// frees a DynamicTex we created along with the mat and tex it allocated, but not its FileLoader
+// we can't call the DynamicTexDestructor because the FileLoader it used has already been freed by the time the music library unloads, so we must destruct everything but the FileLoader  instead
+static void FreeDynamicTex(DynamicTex *tex)
+{
+    // the mat and tex were allocated by the DynamicTex, so delete them like its real destructor does
+    if(tex->mMat != NULL) {
+        ((Object *)tex->mMat)->table->destructor((Object *)tex->mMat, 1);
+        tex->mMat = NULL;
+    }
+    if(tex->mTex != NULL) {
+        ((Object *)tex->mTex)->table->destructor((Object *)tex->mTex, 1);
+        tex->mTex = NULL;
+    }
+    if(tex->mMatName.length != 0) {
+        if(tex->mMatName.vtable != NULL) {
+            tex->mMatName.vtable->destructor(&tex->mMatName, 0);
+        }
+    }
+    MemFree(tex);
+}
+
 void CreateMaterial(GameOriginInfo *info)
 {
     // alloc the memory for the dynamic tex
     DynamicTex *tex = NULL;
     char path[0x200];
 
-    // TODO: we should identify and hook some function that runs when you leave the song select screen to call DynamicTex's destructor
-    // it will free the dynamic tex itself, the material it created, and the texture too, so it nicely wraps it all up for you
-    // this way there is not a chunk of memory permanently dedicated to game origin icons (even if it is not a large amount)
     tex = MemAlloc(0x20, 0);
     if (tex == NULL) {
         RB3E_DEBUG("MemAlloc failed for dynamic tex '%s'", info->gameOrigin);
@@ -52,8 +70,8 @@ void CreateMaterial(GameOriginInfo *info)
     if (tex->mMat == NULL || tex->mTex == NULL) {
         RB3E_DEBUG("DynamicTex::__ct failed for dynamic tex '%s'", path);
 
-        // we should prob do cleanup here but that is a
-        // TODO
+        // free whatever the constructor did manage to create
+        FreeDynamicTex(tex);
         return;
     }
 
@@ -169,26 +187,7 @@ void MusicLibraryOnUnloadHook(void *thisMusicLibrary)
     // lets just sweep all 100 to be safe
     for (i = 0; i < 100; i++) {
         if (textures[i] != NULL) {
-            // we can't call the DynamicTexDestructor because the FileLoader it used has already been freed by this point, so we must destruct everything but the FileLoader
-            // extremely nasty but it seems to work
-            if(textures[i]->mMat != NULL) {
-                ((Object *)textures[i]->mMat)->table->destructor((Object *)textures[i]->mMat);
-                textures[i]->mMat = NULL;
-            }
-            if(textures[i]->mTex != NULL) {
-                ((Object *)textures[i]->mTex)->table->destructor((Object *)textures[i]->mTex);
-                textures[i]->mTex = NULL;
-            }
-            // TODO: set up a proper vtable for String instead of doign this shit
-            if(textures[i]->mMatName.length != 0) {
-                if(textures[i]->mMatName.vtable != NULL) {
-                    #ifdef RB3E_WII
-                    ((void (*)(String *))textures[i]->mMatName.vtable[2])(&textures[i]->mMatName);
-                    #else
-                    ((void (*)(String *))textures[i]->mMatName.vtable[0])(&textures[i]->mMatName);
-                    #endif
-                }
-            }
+            FreeDynamicTex(textures[i]);
             textures[i] = NULL;
         }
     }

@@ -16,7 +16,8 @@ typedef enum _CopyType
 typedef struct _Object Object;
 typedef struct _TypeProps TypeProps;
 
-typedef void (*ObjDestructor_t)(Object *thisObject);
+// deleteFlag 1 frees the object's memory, 0 just destructs it
+typedef void (*ObjDestructor_t)(Object *thisObject, int deleteFlag);
 typedef void (*ObjOnlyReturns_t)();
 typedef int (*ObjReturnsZero_t)();
 typedef Symbol (*ObjClassName_t)(Symbol retSym);

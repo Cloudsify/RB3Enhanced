@@ -104,7 +104,7 @@
 #define PORT_METAMUSICSTART 0x80678fa4           // MetaMusic::Start
 #define PORT_INITSONGMETADATA 0x805147a4         // InitSongMetadata
 #define PORT_SONGMETADATACONSTRUCTOR 0x80514880           // SongMetadata::__ct
-#define PORT_SONGMETADATALOAD 0x801d2090                  // SongMetadata::Load
+#define PORT_SONGMETADATALOAD 0x80514e18                  // SongMetadata::Load
 #define PORT_UPDATEPRESENCE 0x801879d4           // PresenceMgr::UpdatePresence
 #define PORT_STEPSEQUENCEJOBSETSTEP 0x80025364   // Quazal::StepSequenceJob::SetStep
 #define PORT_RNDTEXNEWOBJECT 0x80639904                   // RndTex::NewObject
@@ -124,7 +124,7 @@
 #define PORT_DYNAMICTEX_CT 0x80292a70                     // DynamicTex::__ct
 #define PORT_DYNAMICTEX_DT 0x80292bcc                     // DynamicTex::__dt
 #define PORT_MUSICLIBRARYONENTER 0x8022dd24              // MusicLibrary::OnEnter
-#define PORT_MUSICLIBRARYONUNLOAD 0x8022e87c               // MusicLibrary::OnExit
+#define PORT_MUSICLIBRARYONUNLOAD 0x8022e87c               // MusicLibrary::OnUnload
 #define PORT_BINSTREAMWRITE 0x80342f48           // BinStream::Write
 #define PORT_BINSTREAMREAD 0x80342e7c            // BinStream::Read
 #define PORT_BINSTREAMREADENDIAN 0x803430bc      // BinStream::ReadEndian
