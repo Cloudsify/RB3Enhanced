@@ -46,7 +46,7 @@ char *RB3E_GetRawfilePath(char *path, int root_allowed)
     int path_length = strlen(path);
     int i = 0;
     // if its bigger than this, we're unsafe, we might buffer overflow
-    if (path_length > sizeof(corrected_path))
+    if (path_length >= sizeof(corrected_path))
         return NULL;
     // run through our original path
     for (i = 0; i < path_length; i++)
@@ -69,6 +69,10 @@ char *RB3E_GetRawfilePath(char *path, int root_allowed)
     }
     // scan GAME: to see if we have it there
     sprintf(path_to_check, "GAME:\\%s", corrected_path);
+    if (RB3E_FileExists(path_to_check))
+        return path_to_check;
+    // then GAME:'s rawfilesdir folder
+    sprintf(path_to_check, "GAME:\\%s\\%s", config.RawfilesDir, corrected_path);
     if (RB3E_FileExists(path_to_check))
         return path_to_check;
     // scan through every drive's "rb3" folder

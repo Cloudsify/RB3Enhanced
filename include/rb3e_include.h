@@ -32,6 +32,7 @@
 #include "SongSort.h"
 #include "SpeedHooks.h"
 #include "utilities.h"
+#include "VocalHooks.h"
 #include "wii_usbhid.h"
 #include "xbox360.h"
 

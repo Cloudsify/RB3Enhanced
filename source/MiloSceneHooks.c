@@ -98,6 +98,7 @@ void VertexReadHook(BinStream *thisBinStream, Vector3 *vec3)
 }
 
 
+// TODO: make this work on Wii for when gltfmilo supports wii
 #ifdef RB3E_XBOX
 
 // the third arg is not really a String but a FilePath but shhh i wont tell if you dont
@@ -196,7 +197,7 @@ static int CustomPrefabIdx(const char* name) {
     return -1;
 }
 
-void* DirLoaderLoadObjsHook(String * filePath, int unk, int unk2)
+void* DirLoaderLoadObjectsHook(String * filePath, void* callbackFunc, BinStream* binstream)
 {
     // gotta stay compliant with c89 so declare everything first
     void* prefabDir;
@@ -230,7 +231,7 @@ void* DirLoaderLoadObjsHook(String * filePath, int unk, int unk2)
     if (strcmp(filePath->buf, "char/main/shared/prefabs.milo") == 0)
     {
         // load the original prefabs
-        prefabDir = DirLoaderLoadObjs(filePath, unk, unk2);
+        prefabDir = DirLoaderLoadObjects(filePath, callbackFunc, binstream);
         if (!prefabDir) {
             RB3E_MSG("Failed to load original prefabs.milo, your Rock Band 3 installation may be corrupt", 0);
             return NULL;
@@ -353,7 +354,7 @@ void* DirLoaderLoadObjsHook(String * filePath, int unk, int unk2)
     }
 
     // if it's not the prefabs milo, load it normally
-    return DirLoaderLoadObjs(filePath, unk, unk2);
+    return DirLoaderLoadObjects(filePath, callbackFunc, binstream);
 }
 
 const char* GetPrefabPortraitPathHook(void* thisPrefabChar)

@@ -138,8 +138,9 @@
 #define PORT_CHARBANDDESC_MAKEOUTFITPATH 0x803dbf70 // CharBandDesc::MakeOutfitPath
 #define PORT_BANDCHARDESC_NEWOBJECT 0x801f6468        // BandCharDesc::NewObject
 #define PORT_BANDCHARDESC_RELOADPREFABS 0x803d9c6c        // BandCharDesc::ReloadPrefabs
-#define PORT_DIRLOADER_LOADOBJS 0x8032ffe0          // DirLoader::LoadObjs
+#define PORT_DIRLOADER_LOADOBJECTS 0x8032ffe0          // DirLoader::LoadObjects
 #define PORT_GETPREFABPORTRAITPATH 0x801f1394        // GetPortraitPath
+#define PORT_VOICEBEAT_RESET 0x80699aa0              // VoiceBeat::Reset
 // instance addresses
 #define PORT_MODIFIERMGR_POINTER 0x808fda68 // pointer to ModifierManager
 #define PORT_ROCKCENTRALGATEWAY 0x80900870  // address of RockCentralGateway

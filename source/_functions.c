@@ -141,8 +141,9 @@ RB3E_STUB(DataArrayExecute)
 RB3E_STUB(MakeOutfitPath)
 RB3E_STUB(BandCharDescNewObject)
 RB3E_STUB(ReloadPrefabs)
-RB3E_STUB(DirLoaderLoadObjs)
+RB3E_STUB(DirLoaderLoadObjects)
 RB3E_STUB(GetPrefabPortraitPath)
+RB3E_STUB(VoiceBeatReset)
 
 #ifdef RB3E_WII
 // Wii-specific functions

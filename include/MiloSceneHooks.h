@@ -14,7 +14,7 @@
 void LoadObj(Object *object, BinStream *stream);
 void VertexReadHook(BinStream *thisBinStream, Vector3 *vec3);
 void MakeOutfitPathHook(void *thisBandCharDesc, Symbol part, String *filePath);
-void* DirLoaderLoadObjsHook(String * filePath, int unk, int unk2);
-void* DirLoaderLoadObjs(String * filePath, int unk, int unk2);
+void* DirLoaderLoadObjectsHook(String * filePath, void* callbackFunc, BinStream* binstream);
+void* DirLoaderLoadObjects(String * filePath, void* callbackFunc, BinStream* binstream);
 const char* GetPrefabPortraitPathHook(void* pPrefab);
 extern const char* GetPrefabPortraitPath(void * thisPrefabChar);

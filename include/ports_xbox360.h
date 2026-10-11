@@ -184,8 +184,9 @@
 #define PORT_BANDCHARDESC_NEWOBJECT 0x823399c0       // BandCharDesc::NewObject
 #define PORT_BANDCHARDESC_RELOADPREFABS 0x82339048   // BandCharDesc::ReloadPrefabs
 #define PORT_PREFABCHAR_NEWOBJECT 0x82553f40         // PrefabChar::NewObject
-#define PORT_DIRLOADER_LOADOBJS 0x82757b00           // DirLoader::LoadObjs
+#define PORT_DIRLOADER_LOADOBJECTS 0x82757b00           // DirLoader::LoadObjects
 #define PORT_GETPREFABPORTRAITPATH 0x825d8078        // GetPortraitPath
+#define PORT_VOICEBEAT_RESET 0x827182b8              // VoiceBeat::Reset
 #define PORT_OUTFIGCONFIG_COMPRESSTEXTURES 0x8229d0a0 // OutfitConfig::CompressTextures
 // instance addresses
 #define PORT_MODIFIERMGR_POINTER 0x82dfec08 // pointer to ModifierManager

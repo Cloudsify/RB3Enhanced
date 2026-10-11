@@ -473,6 +473,7 @@ void ApplyHooks()
     HookFunction(PORT_DATAONELEM, &DataOnElem, &DataOnElemHook);
     HookFunction(PORT_MUSICLIBRARYONENTER, &MusicLibraryOnEnter, &MusicLibraryOnEnterHook);
     HookFunction(PORT_MUSICLIBRARYONUNLOAD, &MusicLibraryOnUnload, &MusicLibraryOnUnloadHook);
+    HookFunction(PORT_VOICEBEAT_RESET, &VoiceBeatReset, &VoiceBeatResetHook);
 #ifdef RB3E_WII // wii exclusive hooks
     // HookFunction(PORT_USBWIIGETTYPE, &UsbWiiGetType, &UsbWiiGetTypeHook);
     HookFunction(PORT_WIINETINIT_DNSLOOKUP, &StartDNSLookup, &StartDNSLookupHook);
@@ -491,7 +492,7 @@ void ApplyHooks()
     // prefab loader stuff only for 360 right now
     HookFunction(PORT_BANDCHARDESC_MAKEOUTFITPATH, &MakeOutfitPath, &MakeOutfitPathHook);
     HookFunction(PORT_GETPREFABPORTRAITPATH, &GetPrefabPortraitPath, &GetPrefabPortraitPathHook);
-    HookFunction(PORT_DIRLOADER_LOADOBJS, &DirLoaderLoadObjs, &DirLoaderLoadObjsHook);
+    HookFunction(PORT_DIRLOADER_LOADOBJECTS, &DirLoaderLoadObjects, &DirLoaderLoadObjectsHook);
 #endif
     RB3E_MSG("Hooks applied!", NULL);
 }

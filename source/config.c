@@ -65,7 +65,7 @@ static int INIHandler(void *user, const char *section, const char *name, const c
             config.DisableMenuMusic = RB3E_CONFIG_BOOL(value);
         if (strcmp(name, "LanguageOverride") == 0 && strlen(value) == RB3E_LANG_LEN)
             strncpy(config.LanguageOverride, value, RB3E_LANG_LEN);
-        if (strcmp(name, "RawfilesDir") == 0 && !RB3E_CONFIG_FALSE(value))
+        if (strcmp(name, "RawfilesDir") == 0 && RB3E_CONFIG_FALSE(value))
             strncpy(config.RawfilesDir, value, RB3E_MAX_CONFIG_LEN);
         if (strcmp(name, "DisableRawfiles") == 0)
             config.DisableRawfiles = RB3E_CONFIG_BOOL(value);
