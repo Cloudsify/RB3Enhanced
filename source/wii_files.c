@@ -35,7 +35,7 @@ char *RB3E_GetRawfilePath(char *path, int root_allowed)
     if (RB3E_Mounted == 0)
         return NULL;
     // if its bigger than this, we're unsafe, we might buffer overflow
-    if (path_length >= sizeof(corrected_path))
+    if (path_length > sizeof(corrected_path))
         return NULL;
     // if we're loading original DLC, don't touch any paths
     if (strncmp(path, "dlc/", 4) == 0)

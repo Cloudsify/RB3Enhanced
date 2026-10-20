@@ -13,9 +13,9 @@
 int UsbWiiGetTypeHook(HIDDevice *device)
 {
     int r = 0;
-    if (device->vid == 0x12BA)
+    if (device->vendorID == 0x12BA)
     { // sony computer entertainment
-        switch (device->pid)
+        switch (device->productID)
         {
         case 0x0100: // gh guitar
         case 0x0200: // rb guitar
@@ -31,7 +31,7 @@ int UsbWiiGetTypeHook(HIDDevice *device)
     {
         r = UsbWiiGetType(device);
     }
-    RB3E_DEBUG("Device connected: 0x%04x 0x%04x - type %i", device->vid, device->pid, r);
+    RB3E_DEBUG("Device connected: 0x%04x 0x%04x - type %i", device->vendorID, device->productID, r);
     return r;
 }
 

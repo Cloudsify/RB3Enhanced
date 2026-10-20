@@ -41,8 +41,7 @@ static char *newLocales[][2] = {
     {"mod_force_hopos", "Force HOPOs"},
     {"mod_mirror_mode", "Mirror Mode"},
     {"mod_color_shuffle", "Gem Color Shuffle"},
-    {"mod_gem_shuffle", "Note Shuffle"},
-    {"mod_double_bass", "Double Bass Pedal"}};
+    {"mod_gem_shuffle", "Note Shuffle"}};
 static int numNewLocales = sizeof(newLocales) / sizeof(newLocales[0]);
 
 char RB3E_ActiveLocale[RB3E_LANG_LEN + 1] = {0};
@@ -73,12 +72,9 @@ char *LocalizeHook(int thisLocale, Symbol sym, int fail)
     char newLocaleName[0x50];
     Symbol newLocale;
     char *original;
-
-    // No longer needed with origin rewrite
     // game origin icons relies on using different formatting for the song/artist name
-    //if (config.GameOriginIcons == 1 && sym.sym != NULL && strcmp(sym.sym, "song_artist_fmt") == 0)
-    //    return "%s <it>%s</it>";
-
+    if (config.GameOriginIcons == 1 && sym.sym != NULL && strcmp(sym.sym, "song_artist_fmt") == 0)
+        return "%s <it>%s</it>";
     // if the string starts with message_motd_ (but isn't message_motd), it's our motd
     if (memcmp(sym.sym, "message_motd_", 13) == 0)
     {

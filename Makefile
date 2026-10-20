@@ -18,11 +18,6 @@ ifeq ($(strip $(DEBUG)),1)
     DEFINES += RB3EDEBUG
 endif
 
-# if BANK8=1 then compile builds for bank 8 dev build
-ifeq ($(strip $(BANK8)),1) 
-    DEFINES += RB3E_WII_BANK8
-endif
-
 # Wii variables
 # =================
 # build directory for Wii compilation
@@ -67,20 +62,15 @@ TOOLPATH_X := $(XEDK)/bin/win32
 COMPILER_X := "$(TOOLPATH_X)/cl.exe"
 LINKER_X := "$(TOOLPATH_X)/link.exe"
 IMAGEXEX_X := "$(TOOLPATH_X)/imagexex.exe"
-# correct directory if not on Windows
-# this operates under the assumption that the XEDK path is relative to /, and the WINEPREFIX maps Z: to /
-ifneq ($(OS),Windows_NT)
-ifeq ($(XEDK),$(subst :, ,$(XEDK)))
-    XEDK := Z:$(XEDK)
-    $(info Toolchain path corrected to $(XEDK))
-endif
-endif
 # include directories
 INCLUDES_X := "$(XEDK)/include/xbox" 
 # library directories
 LIBDIR_X := "$(XEDK)/lib/xbox"
 # library includes
 LIBS_X := xapilib.lib xboxkrnl.lib xnet.lib xonline.lib
+ifeq ($(strip $(EMULATOR)),1) # for emulator builds we need xbdm
+	LIBS_X += xbdm.lib
+endif
 # compiler flags
 CFLAGS_X := -c -Zi -nologo -W3 -WX- -Ox -Os -D _XBOX -D RB3E_XBOX $(patsubst %,-D %,$(DEFINES)) \
 			-GF -Gm- -MT -GS- -Gy -fp:fast -fp:except- -Zc:wchar_t -Zc:forScope \
@@ -100,11 +90,7 @@ all: xbox wii
 
 .PHONY: scripts
 scripts:
-ifeq ($(strip $(DEBUG)),1)
-	@bash scripts/version.sh DEBUG
-else
 	@bash scripts/version.sh
-endif
 
 .PHONY: clean
 clean:

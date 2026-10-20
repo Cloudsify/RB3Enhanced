@@ -1,13 +1,6 @@
 #ifndef _BINSTREAM_H
 #define _BINSTREAM_H
 
-typedef enum _SeekType
-{
-    kSeekBegin = 0,
-    kSeekCur = 1,
-    kSeekEnd = 2,
-} SeekType;
-
 typedef struct _BinStream BinStream;
 
 typedef void (*BinStreamDestructor_t)(BinStream *thisBinStream, int unk);
@@ -39,5 +32,6 @@ extern void BinstreamWrite(void *thisBinStream, void *data, int size);
 extern void BinstreamRead(void *thisBinStream, void *data, int size);
 extern void BinstreamReadEndian(void *thisBinStream, void *data, int size);
 extern void BinstreamWriteEndian(void *thisBinStream, void *data, int size);
+extern void BinstreamWriteLengthString(void *thisBinStream, char *string);
 
 #endif // _BINSTREAM_H

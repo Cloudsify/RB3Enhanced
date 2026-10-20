@@ -5,258 +5,84 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <stdint.h>
 #include <string.h>
 #include "config.h"
 #include "ports.h"
-#include "GameOriginInfo.h"
 #include "rb3/BandLabel.h"
-#include "rb3/File.h"
-#include "rb3/FilePath.h"
-#include "rb3/Mem.h"
-#include "rb3/MusicLibrary.h"
-#include "rb3/NodeSort.h"
-#include "rb3/UI/UIListSlot.h"
 #include "rb3/UI/UIPanel.h"
-#include "SongSort.h"
 #include "rb3/SortNode.h"
-#include "rb3/SongSortMgr.h"
-#include "rb3/Rnd/DynamicTex.h"
-#include "rb3/Rnd/RndMat.h"
 
-DynamicTex *textures[100] = {0};
+static char *originToIcon[][2] = {
+    {"rb1", "<alt>Y</alt> "},
+    {"rb2", "<alt>2</alt> "},
+    {"rb3", "<alt>B</alt> "},
+    {"rb4", "<alt>1</alt> "},
+    {"rb_blitz", "<alt>X</alt> "},
+    {"ugc", "<alt>U</alt> "},
+    {"ugc_c3", "<alt>y</alt> "},
+    {"ugc_plus", "<alt>U</alt> "},
+    {"ugc1", "<alt>U</alt> "},
+    {"ugc2", "<alt>U</alt> "},
+    {"lego", "<alt>A</alt> "},
+    {"greenday", "<alt>0</alt> "},
+    {"beatles", "<alt>b</alt> "},
+    {"gh1", "<alt>R</alt> "},
+    {"gh2", "<alt>S</alt> "},
+    {"gh3", "<alt>s</alt> "},
+    {"onyxite", "<alt>G</alt> "},
+};
+static int numOriginToIcon = sizeof(originToIcon) / sizeof(originToIcon[0]);
 
-// frees a DynamicTex we created along with the mat and tex it allocated, but not its FileLoader
-// we can't call the DynamicTexDestructor because the FileLoader it used has already been freed by the time the music library unloads, so we must destruct everything but the FileLoader  instead
-static void FreeDynamicTex(DynamicTex *tex)
+void SetSongAndArtistNameHook(BandLabel *label, SortNode *sortNode)
 {
-    // the mat and tex were allocated by the DynamicTex, so delete them like its real destructor does
-    if(tex->mMat != NULL) {
-        ((Object *)tex->mMat)->table->destructor((Object *)tex->mMat, 1);
-        tex->mMat = NULL;
-    }
-    if(tex->mTex != NULL) {
-        ((Object *)tex->mTex)->table->destructor((Object *)tex->mTex, 1);
-        tex->mTex = NULL;
-    }
-    if(tex->mMatName.length != 0) {
-        if(tex->mMatName.vtable != NULL) {
-            tex->mMatName.vtable->destructor(&tex->mMatName, 0);
-        }
-    }
-    MemFree(tex);
-}
-
-void CreateMaterial(GameOriginInfo *info)
-{
-    // alloc the memory for the dynamic tex
-    DynamicTex *tex = NULL;
-    char path[0x200];
-
-    tex = MemAlloc(0x20, 0);
-    if (tex == NULL) {
-        RB3E_DEBUG("MemAlloc failed for dynamic tex '%s'", info->gameOrigin);
-        return;
-    }
-
-    // build the ark path (so dont include /gen/ or the _platform extension etc.)
-    RB3E_DEBUG("Creating dynamic tex for game origin '%s'", info->gameOrigin);
-    strcpy(path, "ui/resource/game_origins/");
-    strcat(path, info->gameOrigin);
-    strcat(path, ".png");
-
-    // create and pray
-    DynamicTexConstructor(tex, path, info->gameOrigin, 1, 0);
-    if (tex->mMat == NULL || tex->mTex == NULL) {
-        RB3E_DEBUG("DynamicTex::__ct failed for dynamic tex '%s'", path);
-
-        // free whatever the constructor did manage to create
-        FreeDynamicTex(tex);
-        return;
-    }
-
-    textures[info->num] = tex;
-
-    RB3E_DEBUG("Setting diffuse texture for dynamic tex '%s'", path);
-    RndTexSetBitmap3(tex->mTex, tex->mFileLoader);
-
-    // diffuse tex setter function doesn't exist on 360, so we manually set it, but manually setting it doesn't work on wii and we must use the setter
-    // TODO: figure out why we can't just set it manually on both, probably a structure inaccuracy or something
-    #ifdef RB3E_XBOX
-    tex->mMat->diffuseTex.tex = tex->mTex;
-    #else
-    RndMatSetDiffuseTex(tex->mMat, tex->mTex);
-    #endif
-
-    // print the material name
-    RB3E_DEBUG("Dynamic tex created at %p with material '%s'", textures[info->num], textures[info->num]->mMatName.buf);
-
-    RB3E_DEBUG("Dynamic tex created at %p with mat %p tex %p fileloader %p", tex, tex->mMat, tex->mTex, tex->mFileLoader);
-
-    
-}
-
-int *MusicLibraryConstructorHook(int *thisMusicLibrary, int *songPreview)
-{
-    return MusicLibraryConstructor(thisMusicLibrary, songPreview);
-}
-
-RndMat *MusicLibraryMatHook(MusicLibrary *thisMusicLibrary, int data, int idx, UIListSlot *listSlot)
-{
-    if (listSlot != NULL && thisMusicLibrary != NULL && config.GameOriginIcons == 1)
-    {
-        if (strcmp(listSlot->mMatchName.buf, "game_origin_icon") == 0)
-        {
-            NodeSort *ret = 0;
-            SortNode *node = 0;
-            SongNodeType nodeType = kNodeNone;
-            int curInfo = 0;
-
-            ret = SongSortMgrGetSort(*(SongSortMgr **)PORT_THESONGSORTMGR, thisMusicLibrary->mSortType);
-            if (ret != NULL)
-            {
-                node = NodeSortGetNode(ret, idx);
-                if (node != NULL)
-                {
-                    nodeType = node->vtable->getNodeType();
-
-                    // ensure this is actually a song node and not like a function node or etc.
-                    if (nodeType == kNodeSong)
-                    {
-                        // do a basic null check here, sometimes it can be null
-                        if (node != NULL && node->record != NULL &&
-                            node->record->metaData != NULL &&
-                            node->record->metaData->gameOrigin.sym != NULL)
-                        {
-                            // this shit fucking sucks lol
-                            for (curInfo = 0; curInfo < numGameOrigins; curInfo++)
-                            {
-                                if (strcmp(node->record->metaData->gameOrigin.sym, originInfo[curInfo].gameOrigin) == 0)
-                                {
-                                    if (textures[originInfo[curInfo].num] != NULL && textures[originInfo[curInfo].num]->mMat != NULL)
-                                    {
-                                        RB3E_DEBUG("Returning material for game origin '%s'", originInfo[curInfo].gameOrigin);
-                                        return textures[originInfo[curInfo].num]->mMat;
-                                    }
-                                    else
-                                    {
-                                        RB3E_DEBUG("Material for game origin '%s' is NULL, creation seemingly failed", originInfo[curInfo].gameOrigin);
-                                    }
-                                }
-                            }
-                        } else {
-                            RB3E_DEBUG("Node record or its metadata is NULL, skipping", NULL);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return (RndMat*)(intptr_t)MusicLibraryMat((void*)thisMusicLibrary, data, idx, (int*)listSlot);
-}
-
-// called when entering the music library
-// allocate the memory and load the textures here
-void MusicLibraryOnEnterHook(void *thisMusicLibrary)
-{
-    int i;
-
-    // allocate and create the materials for any game origins we found while loading songs
-    for (i = 0; i < numGameOrigins; i++) {
-        int slot = originInfo[i].num;
-        if (slot >= 0 && slot < 100) {
-            if (textures[slot] == NULL) {
-                CreateMaterial(&originInfo[i]);
-            }
-        }
-    }
-
-    // do the original logic
-    MusicLibraryOnEnter(thisMusicLibrary);
-}
-
-// called when the music library panel is unloaded
-void MusicLibraryOnUnloadHook(void *thisMusicLibrary)
-{
-    int i;
-
-    MusicLibraryOnUnload(thisMusicLibrary);
-
-    // call the dynamictex destructor for any textures we created
-    // lets just sweep all 100 to be safe
-    for (i = 0; i < 100; i++) {
-        if (textures[i] != NULL) {
-            FreeDynamicTex(textures[i]);
-            textures[i] = NULL;
-        }
-    }
-
-    RB3E_DEBUG("Freed game origin icon textures", NULL);
-}
-
-int numGameOrigins;
-GameOriginInfo originInfo[100] = {0};
-
-void AddGameOriginToIconList(char *gameOrigin)
-{
-    if(gameOrigin != NULL && strcmp(gameOrigin, "") != 0)
-    {
+    char newLabel[1024] = {0};
+    char *originLabel = "<alt>0</alt> "; // default
     int i = 0;
 
-    // check that we havent already added 100 game origins
-    if (numGameOrigins >= 100)
+    if (config.GameOriginIcons == 1 && strlen(label->string) < 1000)
     {
-        RB3E_DEBUG("Too many game origins with icons, not adding '%s'", gameOrigin);
+        SetSongAndArtistName(label, sortNode);
+        for (i = 0; i < numOriginToIcon; i++)
+        {
+            if (strcmp(sortNode->somethingElse->metaData->gameOrigin, originToIcon[i][0]) == 0)
+            {
+                originLabel = originToIcon[i][1];
+                break;
+            }
+        }
+        strcat(newLabel, originLabel);
+        strcat(newLabel, label->string);
+        BandLabelSetDisplayText(label, newLabel, 1);
         return;
     }
+    SetSongAndArtistName(label, sortNode);
+    return;
+}
 
-    // make sure the game origin isn't already in the array
-    for (i = 0; i < numGameOrigins; i++)
+void SetSongNameFromNodeHook(BandLabel *label, SortNode *sortNode)
+{
+    char newLabel[1024] = {0};
+    char *originLabel = "<alt>0</alt> "; // default
+    int i = 0;
+
+    RB3E_DEBUG("SetSongNameFromNode: %s", label->string);
+
+    if (config.GameOriginIcons == 1 && strlen(label->string) < 1000)
     {
-        if (strcmp(originInfo[i].gameOrigin, gameOrigin) == 0)
+        SetSongNameFromNode(label, sortNode);
+        for (i = 0; i < numOriginToIcon; i++)
         {
-            return;
+            if (strcmp(sortNode->somethingElse->metaData->gameOrigin, originToIcon[i][0]) == 0)
+            {
+                originLabel = originToIcon[i][1];
+                break;
+            }
         }
+        strcat(newLabel, originLabel);
+        strcat(newLabel, label->string);
+        BandLabelSetDisplayText(label, newLabel, 1);
+        return;
     }
-
-    originInfo[numGameOrigins].gameOrigin = gameOrigin;
-    originInfo[numGameOrigins].num = numGameOrigins;
-    numGameOrigins++;
-    RB3E_DEBUG("Adding game origin '%s' to icon list, total is now %i", gameOrigin, numGameOrigins);
-    } 
-    else
-     {
-        RB3E_DEBUG("Game origin is NULL or empty, not adding to icon list", NULL);
-    }
-}
-
-// this will be called any time a song is loaded from DTA (on disc or when loading into the cache)
-SongMetadata *SongMetadataConstructorHook(SongMetadata *thisSongMetadata, DataArray *data, DataArray *backupData, char isOnDisc)
-{
-    thisSongMetadata = SongMetadataConstructor(thisSongMetadata, data, backupData, isOnDisc);
-
-    // make sure the game origin isn't null
-    if (thisSongMetadata->gameOrigin.sym != 0)
-    {
-        AddGameOriginToIconList(thisSongMetadata->gameOrigin.sym);
-        return thisSongMetadata;
-    }
-
-    return thisSongMetadata;
-}
-
-// this will be called when a song is loaded from cache
-char SongMetadataLoadHook(SongMetadata *thisSongMetadata, BinStream *stream)
-{
-    char ret = SongMetadataLoad(thisSongMetadata, stream);
-
-    // make sure the game origin isn't null
-    if (thisSongMetadata->gameOrigin.sym != 0)
-    {
-        AddGameOriginToIconList(thisSongMetadata->gameOrigin.sym);
-        return ret;
-    }
-
-    return ret;
+    SetSongNameFromNode(label, sortNode);
+    return;
 }
