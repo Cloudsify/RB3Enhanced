@@ -1,22 +1,23 @@
 #ifndef _RNDPROPANIM_H
 #define _RNDPROPANIM_H
 
-#include "rb3/List.h"
 #include "rb3/Object.h"
-#include "rb3/Rnd/RndAnimatable.h"
 
 typedef struct _RndPropAnim
 {
-    RndAnimatable mAnimatable;
-    list mPropKeys;
-    float mLastFrame;
-    bool mInSetFrame;
-    bool unk;
-    char pad[2];
+    int *vtable; // 0x0
+    int unk;     // 0x04
+    int unk2;    // 0x08
+    int unk3;    // 0x0c
+    int unk4;    // 0x10
+    int unk5;    // 0x14
+    int unk6;    // 0x18
+    int unk7;    // 0x1c
 #ifdef RB3E_XBOX
-    int unk2;
+    int unk8;
 #endif
-    Object mObject;
+    Object object; // 0x20
+
 } RndPropAnim;
 
 void PropAnimSetFrame(RndPropAnim *rndPropAnim, float frame, float time);

@@ -15,7 +15,7 @@
 #define RB3E_STUB(x)           \
     __declspec(naked) void x() \
     {                          \
-        __asm { li r3, __LINE__ }      \
+        __asm { li r3, __LINE__ }     \
     }
 #else // other platforms should use GCC notation
 #define RB3E_STUB(x)                   \
@@ -24,8 +24,6 @@
         asm("li 0, " LINE_STRING ";"); \
     }
 #endif
-
-RB3E_STUB(RB3EBase); // this will always be the start of .text
 
 // function stub definitions
 #ifndef RB3E_WII
@@ -59,21 +57,8 @@ RB3E_STUB(InitSongMetadata)
 RB3E_STUB(MemPrintOverview)
 RB3E_STUB(MemPrint)
 RB3E_STUB(MemNumHeaps)
-RB3E_STUB(MemFreeBlockStats)
-RB3E_STUB(MemHeapName)
-RB3E_STUB(RndEndWorld)
-RB3E_STUB(RndPreInit)
-RB3E_STUB(RndOverlayDrawAll)
-RB3E_STUB(RndOverlaySetLines)
-RB3E_STUB(TextStreamWrite)
-RB3E_STUB(RndOnToggleHeap)
 RB3E_STUB(MemAlloc)
 RB3E_STUB(MemFree)
-RB3E_STUB(FileIsDLC)
-RB3E_STUB(DxRndSuspend)
-#ifndef RB3E_XBOX
-RB3E_STUB(DataRegisterFunc) // DataRegisterFunc is inlined on 360
-#endif
 // hooked function stubs
 RB3E_STUB(Localize)
 RB3E_STUB(SetVenue)
@@ -81,7 +66,6 @@ RB3E_STUB(ModifierManagerConstructor)
 RB3E_STUB(NewFile)
 RB3E_STUB(WillBeNoStrum)
 RB3E_STUB(AddGameGem)
-RB3E_STUB(SongDBGetGemListByDiff)
 RB3E_STUB(SetSongAndArtistName)
 RB3E_STUB(SetMusicSpeed)
 RB3E_STUB(UpdateTrackSpeed)
@@ -108,68 +92,10 @@ RB3E_STUB(QueuingSocketBind)
 RB3E_STUB(OperatorEqualsFmt)
 RB3E_STUB(UpdatePresence)
 RB3E_STUB(StepSequenceJobSetStep)
-RB3E_STUB(RndTexNewObject)
-RB3E_STUB(RndMatNewObject)
-RB3E_STUB(RndTexSetBitmap)
-RB3E_STUB(RndTexSetBitmap2)
-RB3E_STUB(FilePathConstructor)
-RB3E_STUB(MusicLibraryMat)
-RB3E_STUB(MusicLibraryOnEnter)
-RB3E_STUB(MusicLibraryOnUnload)
-RB3E_STUB(RndCreateDefaultTexture)
-RB3E_STUB(MusicLibraryConstructor)
-RB3E_STUB(MusicLibraryGetNodeByIndex)
-RB3E_STUB(StringConstructor)
-RB3E_STUB(AddSmasherPlateToVector)
-RB3E_STUB(vector_push_back)
-RB3E_STUB(GameGemDBConstructor)
-RB3E_STUB(AddMultiGem)
-RB3E_STUB(GetGameGemList)
-RB3E_STUB(SongMetadataConstructor)
-RB3E_STUB(SongMetadataLoad)
-RB3E_STUB(SongSortMgrGetSort)
-RB3E_STUB(NodeSortGetNode)
-RB3E_STUB(DynamicTexConstructor)
-RB3E_STUB(DynamicTexDestructor)
-RB3E_STUB(RndMatSetDiffuseTex)
-RB3E_STUB(RndTexSetBitmap3)
 RB3E_STUB(BinstreamWrite)
 RB3E_STUB(BinstreamRead)
 RB3E_STUB(BinstreamReadEndian)
 RB3E_STUB(BinstreamWriteEndian)
-RB3E_STUB(SongParserPitchToSlot)
-RB3E_STUB(DataSet)
-RB3E_STUB(DataSetElem)
-RB3E_STUB(DataOnElem)
-RB3E_STUB(DataNodeGetObj)
-RB3E_STUB(HeapInit)
-RB3E_STUB(ResolvedModuleKeyboard)
-RB3E_STUB(XboxContentConstruct)
-RB3E_STUB(CacheMgrXbox_MountAsync)
-RB3E_STUB(DataArrayExecute)
-RB3E_STUB(MakeOutfitPath)
-RB3E_STUB(BandCharDescNewObject)
-RB3E_STUB(ReloadPrefabs)
-RB3E_STUB(DirLoaderLoadObjects)
-RB3E_STUB(GetPrefabPortraitPath)
-RB3E_STUB(VoiceBeatReset)
-RB3E_STUB(BandDirectorEnter)
-RB3E_STUB(LightPresetResetEvents)
-RB3E_STUB(LightPresetManualEventsClear)
-
-#ifdef RB3E_WII
-// Wii-specific functions
-// FUTURE(Emma): these really ought to be provided by the BrainSlug loader
-RB3E_STUB(OSFatal)
-RB3E_STUB(OSSetErrorHandler)
-RB3E_STUB(PPCHalt)
-RB3E_STUB(OSReturnToMenu)
-RB3E_STUB(ARCInitHandle)
-RB3E_STUB(contentInitHandleTitleNAND)
-RB3E_STUB(CNTReleaseHandle)
-RB3E_STUB(CNTRead)
-RB3E_STUB(EC_GetContentInfos)
-RB3E_STUB(CNTOpen)
-#endif
-
-RB3E_STUB(RB3EStubEnd);
+RB3E_STUB(BinstreamWriteLengthString)
+RB3E_STUB(MessageBrokerDDL)
+RB3E_STUB(PropSyncBool)

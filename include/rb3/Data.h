@@ -7,28 +7,20 @@ typedef union _DataNode_Value
 {
     int intVal;
     float floatVal;
-    void *dataArray;
+    int *dataArray;
     int *object;
     char *string;
 } DataNode_Value;
 
 typedef enum _DataNode_Type
 {
-#ifndef RB3E_WII
     INT_VALUE = 0,
-#else
-    EMPTY = 0,
-#endif
     FLOAT_VALUE = 1,
     VAR = 2,
     FUNC = 3,
     OBJECT = 4,
     SYMBOL = 5,
-#ifndef RB3E_WII
     EMPTY = 6,
-#else
-    INT_VALUE = 6,
-#endif
     IFDEF = 7,
     ELSE = 8,
     ENDIF = 9,
@@ -63,7 +55,7 @@ typedef struct _DataArray
     short mNodeCount;
     short mRefCount;
     short mLine;
-    short mDeprecated; // assuming this is for them to mark scripts or functions as being deprecated and etc.?
+    short mUnknown;
 } DataArray;
 
 // gets a pointer to the addr of a DTA function
@@ -77,17 +69,5 @@ extern DataArray *DataReadFile(char *file, int dtb);
 
 extern DataArray *DataFindArray(DataArray *data, Symbol name);
 extern int DataFindData(DataArray *data, Symbol name, DataNode *out);
-
-extern DataNode *DataSet(DataNode *ret, DataArray *array);
-extern DataNode *DataSetElem(DataNode *ret, DataArray *array);
-extern DataNode *DataOnElem(DataNode *ret, DataArray *array);
-
-extern DataNode *DataArrayExecute(DataNode *ret, DataArray *thisArr);
-
-extern void *DataNodeGetObj(DataNode *node);
-
-// inlined on 360
-typedef DataNode *(*DTAFunction_t)(DataNode *node, DataArray *args);
-extern void DataRegisterFunc(Symbol name, DTAFunction_t func);
 
 #endif // _DATA_H

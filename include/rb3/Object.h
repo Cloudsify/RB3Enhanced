@@ -6,34 +6,26 @@
 #include "rb3/Symbol.h"
 #include "rb3/UI/UIPanel.h"
 
-typedef enum _CopyType
-{
-    kCopyDeep = 0,
-    kCopyShallow = 1,
-    kCopyFromMax = 2
-} CopyType;
-
 typedef struct _Object Object;
 typedef struct _TypeProps TypeProps;
 
-// deleteFlag 1 frees the object's memory, 0 just destructs it
-typedef void (*ObjDestructor_t)(Object *thisObject, int deleteFlag);
+typedef void (*ObjDestructor_t)(Object *thisObject);
 typedef void (*ObjOnlyReturns_t)();
 typedef int (*ObjReturnsZero_t)();
 typedef Symbol (*ObjClassName_t)(Symbol retSym);
 typedef void (*ObjSetType_t)(Object *thisObject, Symbol type);
-typedef DataNode *(*ObjHandle_t)(DataNode *retNode, Object *thisObject, DataArray *msg, char warn);
+typedef DataNode *(*ObjHandle_t)(DataNode *retNode, Object *thisObject, DataArray *msg, char unk);
 typedef void (*ObjSyncProperty_t)(Object *thisObject);
 typedef void (*ObjSave_t)(Object *thisObject, BinStream *binStream);
-typedef void (*ObjCopy_t)(Object *to, Object *from, CopyType copyType);
+typedef void (*ObjCopy_t)(Object *to, Object *from, int copyType);
 typedef void (*ObjLoad_t)(Object *thisObject, BinStream *binStream);
 typedef void (*ObjSetTypeDef_t)(Object *thisObject, DataArray *typeDef);
-typedef void (*ObjSetName_t)(Object *thisObject, char *name, int *dir);
+typedef void (*ObjSetName_t)(Object *thisObject, Symbol name, int *parentDir);
 typedef int *(*ObjDataDir_t)(Object *thisObject);
 typedef void (*ObjPreLoad_t)(Object *thisObject, BinStream *binStream);
 typedef char *(*ObjFindPathName_t)(Object *thisObject);
 
-extern UIPanel *ObjectFindUIPanel(int *objectDir, char *name, char fail);
+extern UIPanel *ObjectFindUIPanel(int *objectDir, char *name, int unk);
 
 typedef struct _Object_vtable
 {
@@ -85,9 +77,6 @@ struct _Object
 
     char *note;
     char *name;
-    int *objectDir;
-    int *objRefHead;
-    int *objRefTail;
 };
 
 #endif // _OBJECT_H
