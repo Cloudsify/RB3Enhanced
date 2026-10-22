@@ -1,91 +1,91 @@
 name: Build
-
+ 
 on: [push]
-
+ 
 jobs:
   Wii:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
-
+ 
     container:
       image: docker://devkitpro/devkitppc
       options: --cpus 2
-
+ 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+ 
       - name: Install BrainSlug
-        run: | 
+        run: |
           git clone https://github.com/Chadderz121/brainslug-wii
           cd brainslug-wii
           make install
           cd ..
-
+ 
       - name: Compile (debug)
         run: |
           make clean
           make wii -j2 DEBUG=1
-
+ 
       - name: Upload binaries (debug)
-        uses: actions/upload-artifact@v2
-        with: 
+        uses: actions/upload-artifact@v4
+        with:
           name: RB3Enhanced-Wii-Debug
           path: out/RB3Enhanced.mod
-
+ 
       - name: Compile (no-debug)
         run: |
           make clean
           make wii -j2
-
+ 
       - name: Upload binaries (no-debug)
-        uses: actions/upload-artifact@v2
-        with: 
+        uses: actions/upload-artifact@v4
+        with:
           name: RB3Enhanced-Wii-NoDebug
           path: out/RB3Enhanced.mod
-
+ 
   Xbox:
     if: github.repository == 'RBEnhanced/RB3Enhanced'
-    runs-on: windows-2019
+    runs-on: windows-2022
     timeout-minutes: 10
-
+ 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+ 
       - name: Download tools
         env:
           BUILD_TOOLS: ${{ secrets.BUILD_TOOLS_FILE }}
         run: |
           Invoke-WebRequest -OutFile tools.zip $Env:BUILD_TOOLS
           7z x tools.zip -otools
-
+ 
       - name: Compile (debug)
         env:
           XEDK: ${{ github.workspace }}/tools
         run: |
           make clean
           make xbox -j2 DEBUG=1
-
+ 
       - name: Upload binaries (debug)
-        uses: actions/upload-artifact@v2
-        with: 
+        uses: actions/upload-artifact@v4
+        with:
           name: RB3Enhanced-Xbox-Debug
           path: out/RB3Enhanced.dll
-
+ 
       - name: Compile (no-debug)
         env:
           XEDK: ${{ github.workspace }}/tools
         run: |
           make clean
           make xbox -j2
-
+ 
       - name: Upload binaries (no-debug)
-        uses: actions/upload-artifact@v2
-        with: 
+        uses: actions/upload-artifact@v4
+        with:
           name: RB3Enhanced-Xbox-NoDebug
           path: out/RB3Enhanced.dll
